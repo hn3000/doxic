@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+var doxic = require('../index.js');
+
+doxic.main();
