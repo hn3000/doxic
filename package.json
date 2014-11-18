@@ -1,0 +1,29 @@
+{
+  "name": "doxic",
+  "version": "0.1.0",
+  "description": "Generator for runnable documentation, inspired by docco and jasmine docs.",
+  "main": "index.js",
+  "bin": {
+    "doxic": "./bin/doxic"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "documentation",
+    "typescript",
+    "javascript",
+    "html"
+  ],
+  "author": "Harald Niesche",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^1.3.0"
+  },
+  "dependencies": {
+    "commonmark": "^0.12.0",
+    "fs-extra": "^0.12.0",
+    "minimist": "^1.1.0",
+    "underscore": "^1.7.0"
+  }
+}
