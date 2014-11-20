@@ -1,14 +1,8 @@
 
 # doxic -- a Tool for executable docs
 
-## Introduction
-
-This tool makes it easy to write documentation for JavaScript or TypeScript
-libraries that embeds runnable code and lets the user see the result
-of actually running the code.
-
-~~~
-~~~
+This is a [docco]-inspired tool to create documentation pages in a Howto-style
+that allow the reader to see the code examples run.
 
 Click the <button disabled>Run</button> in this example to see it in action.
 ~~~ javascript { runnable: true }
@@ -57,3 +51,15 @@ Some more Text.
 
 ***
 
+
+
+
+
+
+---
+
+Links
+
+[docco]
+
+[docco]:http://github.com/jashkenas/docco
