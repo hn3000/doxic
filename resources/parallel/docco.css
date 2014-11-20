@@ -42,6 +42,41 @@ body {
 }
 #container { min-height: 100%; }
 
+#sampleoutput {
+  position: fixed;
+  height: 30%;
+  width: 30%;
+  border: 5px solid white;
+  box-sizing: border-box;
+  background: #f5f5ff;
+}
+
+div.sample {
+  float: right;
+  min-height: 10%;
+  min-width: 10%;
+}
+
+
+div.sampletop {
+  top: 0;
+}
+
+div.samplebottom {
+  bottom: 0;
+}
+
+div.sampleright {
+  right:0;
+}
+div.sampleleft {
+  left:0;
+}
+
+div.sampleclosed {
+  width: 10px;
+}
+
 a {
   color: #000;
 }
@@ -120,7 +155,7 @@ blockquote {
 
 ul.sections {
   list-style: none;
-  padding:0 0 5px 0;;
+  padding:0 0 5px 0;
   margin:0;
 }
 

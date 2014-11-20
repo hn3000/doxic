@@ -4,8 +4,17 @@
 <head>
   <title><%= title %></title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <link rel="stylesheet" media="all" href="<%= css %>" />
+
+  <% for (var i=0, l=sections.length; i<l; i++) { %>
+  <%   var section = sections[i]; %>
+  <%   if ('head' == section.codeOptions.inject) { %>
+        <%= section.codeText %>
+  <%   }%>
+  <% }%>
+
+
 </head>
 <body>
   <div id="container">
@@ -62,11 +71,33 @@
               <% if (section.codeOptions.autorun) { %>
                  <script>runSection<%=(i+1)%>()</script>
               <% } %>
+              <%   if ('sample' == section.codeOptions.inject) { %>
+                <div class='sample'><%= section.codeText %></div>
+              <%   }%>
+
             </div>
             <% } %>
         </li>
         <% } %>
     </ul>
   </div>
+<!--
+  <div id="sampleoutput" class="sampletop sampleright">
+  <% for (var i=0, l=sections.length; i<l; i++) { %>
+  <%   var section = sections[i]; %>
+  <%   if ('body' == section.codeOptions.inject) { %>
+        <%= section.codeText %>
+  <%   }%>
+  <% }%>
+  </div>
+-->
+  <script>
+  <% for (var i=0, l=sections.length; i<l; i++) { %>
+  <%   var section = sections[i]; %>
+  <%   if ('script' == section.codeOptions.inject) { %>
+        <%= section.codeText %>
+  <%   }%>
+  <% }%>
+  </script>
 </body>
 </html>
