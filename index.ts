@@ -298,38 +298,27 @@ module doxic {
         var docsBlocks = [];
 
         function saveSection() {
+            var codeLang = null;
+            var codeOptions = null;
 
-            /*
-            var mustSave = (
-                (kind == 'both')
-                || (kind == 'code' && codeBlock != null)
-                || (kind == 'docs' && docsBlock != null)
-            );
-
-            if (mustSave) {
-            */
-                var codeLang = null;
-                var codeOptions = null;
-
-                if (codeBlock && codeBlock.info) {
-                    var m = infoRE.exec(codeBlock.info);
-                    if (m[1]) {
-                        codeLang = findLanguageForName(m[1], options);
-                    }
-                    if (m[2]) {
-                        codeOptions = eval('('+m[2]+')');
-                    }
+            if (codeBlock && codeBlock.info) {
+                var m = infoRE.exec(codeBlock.info);
+                if (m[1]) {
+                    codeLang = findLanguageForName(m[1], options);
                 }
+                if (m[2]) {
+                    codeOptions = eval('('+m[2]+')');
+                }
+            }
 
-                result.push({
-                    docsBlocks:docsBlocks,
-                    codeBlock:codeBlock,
-                    codeLang: codeLang,
-                    codeOptions: codeOptions || {}
-                });
-                codeBlock = null;
-                docsBlocks = [];
-            //}
+            result.push({
+                docsBlocks:docsBlocks,
+                codeBlock:codeBlock,
+                codeLang: codeLang,
+                codeOptions: codeOptions || {}
+            });
+            codeBlock = null;
+            docsBlocks = [];
         }
 
 
@@ -340,6 +329,8 @@ module doxic {
                     codeBlock = blocks[i];
                     saveSection();
                     break;
+                case 'ATXHeader':
+                case 'SetextHeader':
                 case 'HorizontalRule':
                     docsBlocks.push(blocks[i]);
                     saveSection();
