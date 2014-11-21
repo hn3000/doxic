@@ -51,12 +51,22 @@ body {
   background: #f5f5ff;
 }
 
-div.sample {
+ul.sections > li > div.sample {
   float: right;
-  min-height: 10%;
+  min-height: 30%;
   min-width: 10%;
+  width: 50%;
+  clear-after: both;
+  border: 5px solid white;
+  background: #ccc;
+  padding: 5px 5px 5px 5px;
 }
 
+div.sample--fixed {
+  position: fixed;
+  top: 0;
+  right: 0;
+}
 
 div.sampletop {
   top: 0;
@@ -157,6 +167,10 @@ ul.sections {
   list-style: none;
   padding:0 0 5px 0;
   margin:0;
+}
+
+ul.sections > li {
+  clear:both;
 }
 
 /*

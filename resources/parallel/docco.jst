@@ -71,11 +71,27 @@
               <% if (section.codeOptions.autorun) { %>
                  <script>runSection<%=(i+1)%>()</script>
               <% } %>
-              <%   if ('sample' == section.codeOptions.inject) { %>
-                <div class='sample'><%= section.codeText %></div>
-              <%   }%>
 
             </div>
+              <%   if ('sample' == section.codeOptions.inject) { %>
+                <div class="sample" id="sample<%=i%>"><%= section.codeText %></div>
+                <script>
+                window.addEventListener('load', function() {
+                    var thisSample = document.getElementById('sample<%=i%>');
+                    var top = thisSample.offsetTop;
+                    var oldClass = thisSample.className;
+                    var fixedClass = oldClass + ' sample--fixed';
+                    document.addEventListener('scroll', function() {
+                      //console.log('onscroll:', window.scrollY, top);
+                      if (window.scrollY >= top) {
+                        thisSample.className = fixedClass;
+                      } else {
+                        thisSample.className = oldClass;
+                      }
+                    });
+                });
+                </script>
+              <%   }%>
             <% } %>
         </li>
         <% } %>
@@ -83,6 +99,8 @@
   </div>
 <!--
   <div id="sampleoutput" class="sampletop sampleright">
+-->
+  <div style="display:none">
   <% for (var i=0, l=sections.length; i<l; i++) { %>
   <%   var section = sections[i]; %>
   <%   if ('body' == section.codeOptions.inject) { %>
@@ -90,7 +108,6 @@
   <%   }%>
   <% }%>
   </div>
--->
   <script>
   <% for (var i=0, l=sections.length; i<l; i++) { %>
   <%   var section = sections[i]; %>
