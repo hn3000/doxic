@@ -7,13 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <link rel="stylesheet" media="all" href="<%= css %>" />
 
-  <% for (var i=0, l=sections.length; i<l; i++) { %>
-  <%   var section = sections[i]; %>
-  <%   if ('head' == section.codeOptions.inject) { %>
-        <%= section.codeText %>
-  <%   }%>
-  <% }%>
-
+  <%
+    for (var i=0, l=sections.length; i<l; i++) {
+      var section = sections[i];
+      if ('head' == section.codeOptions.inject) {
+      %><%= section.codeText %><%
+      }
+    }
+  %>
 
 </head>
 <body>
@@ -57,27 +58,46 @@
               <%= section.docsHtml %>
             </div>
             <% if (section.codeText.replace(/\s/gm, '') != '') { %>
-            <div class="content"><%= section.codeHtml %>
-              <% if (section.codeOptions.runnable || section.codeOptions.autorun) { %>
-                 <script>
+              <div class="content">
+              <% if (!section.codeOptions.autorun && !section.codeOptions.runnable) { %>
+               <%= section.codeHtml %>
+              <% } %>
+              <% if (section.codeOptions.autorun || (section.codeOptions.runnable && !section.codeOptions.editable)) { %>
+               <%= section.codeHtml %>
+               <script>
                  function runSection<%=(i+1)%>() {
                    <%= section.codeText %>
                  }
                  </script>
               <% } %>
+              <% if (section.codeOptions.runnable && section.codeOptions.editable) { %>
+                <div contentEditable="true" id="codeBlock<%=(i+1)%>"><%= section.codeHtml %></div>
+                <div id="runStatus<%=(i+1)%>"></div>
+                <script>
+                 function runSection<%=(i+1)%>() {
+                   var code = document.getElementById('codeBlock<%=(i+1)%>');
+                   var status = document.getElementById('runStatus<%=(i+1)%>');
+                   try {
+                     var fun = new Function(code.innerText || code.textContent);
+                     fun();
+                     status.innerHTML = '';
+                   } catch (x) {
+                     status.innerHTML = ''+x;
+                   }
+                 }
+                </script>
+              <% } %>
               <% if (section.codeOptions.runnable) { %>
                  <button onclick="runSection<%=(i+1)%>()">Run</button>
               <% } %>
-              <% if (section.codeOptions.autorun) { %>
-                 <script>runSection<%=(i+1)%>()</script>
-              <% } %>
-
             </div>
               <%   if ('sample' == section.codeOptions.inject) { %>
                 <div class="sample" id="sample<%=i%>"><%= section.codeText %></div>
+                <div class="sample--placeholder" id="sample<%=i%>r"></div>
                 <script>
                 window.addEventListener('load', function() {
                     var thisSample = document.getElementById('sample<%=i%>');
+                    var thisSampleR = document.getElementById('sample<%=i%>r');
                     var top = thisSample.offsetTop;
                     var oldClass = thisSample.className;
                     var fixedClass = oldClass + ' sample--fixed';
@@ -85,8 +105,10 @@
                       //console.log('onscroll:', window.scrollY, top);
                       if (window.scrollY >= top) {
                         thisSample.className = fixedClass;
+                        thisSampleR.style.minHeight = thisSample.offsetHeight+'px';
                       } else {
                         thisSample.className = oldClass;
+                        thisSampleR.style.minHeight = '0';
                       }
                     });
                 });
@@ -114,6 +136,12 @@
   <%   if ('script' == section.codeOptions.inject) { %>
         <%= section.codeText %>
   <%   }%>
+  <% }%>
+  <% for (var i=0, l=sections.length; i<l; i++) { %>
+  <%   var section = sections[i]; %>
+      <% if (section.codeOptions.autorun) { %>
+         <script>runSection<%=(i+1)%>()</script>
+      <% } %>
   <% }%>
   </script>
 </body>
