@@ -92,8 +92,8 @@
               <% } %>
             </div>
               <%   if ('sample' == section.codeOptions.inject) { %>
-                <div class="sample" id="sample<%=i%>"><%= section.codeText %></div>
                 <div class="sample--placeholder" id="sample<%=i%>r"></div>
+                <div class="sample" id="sample<%=i%>"><%= section.codeText %></div>
                 <script>
                 window.addEventListener('load', function() {
                     var thisSample = document.getElementById('sample<%=i%>');
@@ -101,9 +101,12 @@
                     var top = thisSample.offsetTop;
                     var oldClass = thisSample.className;
                     var fixedClass = oldClass + ' sample--fixed';
+                    document.addEventListener('size', function() {
+                      top = thisSampleR.offsetTop;
+                    });
                     document.addEventListener('scroll', function() {
                       //console.log('onscroll:', window.scrollY, top);
-                      if (window.scrollY >= top) {
+                      if (window.scrollY >= (top)) {
                         thisSample.className = fixedClass;
                         thisSampleR.style.minHeight = thisSample.offsetHeight+'px';
                       } else {
@@ -119,9 +122,6 @@
         <% } %>
     </ul>
   </div>
-<!--
-  <div id="sampleoutput" class="sampletop sampleright">
--->
   <div style="display:none">
   <% for (var i=0, l=sections.length; i<l; i++) { %>
   <%   var section = sections[i]; %>

@@ -36,16 +36,42 @@ If I could find my lorem ipsum generator, that's what you'd see here.
 
 Unfortunately I have not the faintest idea where the darned thing
 is hiding right now, which leads me to producing the drivel you are
-reading right now. It's not pretty, I know, but it will certainly do
+reading at the moment. It's not pretty, I know, but it will certainly do
 the job.
 
 ---
+
+Editable code:
+
+~~~ javascript { runnable: true, editable: true }
+// some extraordinarily long code here (use your imagination)
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+*/
+~~~
+
+---
+
+`--->`
 
 More text that could have been fake latin, but is not.
 
 Some more Text.
 
+    <--- (arrows should be aligned)
     window.alert('just some code -- no options, therefor not runnable');
+    /* this block should be right next to "More text that could have been..." */
 
 ## Usage
 

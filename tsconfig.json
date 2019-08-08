@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "lib": [ "es2019" ],
+    "outDir": "out",
+    "sourceMap": true
+  },
+  "include": [ "src" ]
+}

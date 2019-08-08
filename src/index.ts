@@ -1,9 +1,9 @@
-/// <reference path="typings/tsd.d.ts" />
 
-import path = require('path');
-import fs   = require('fs-extra');
-import cm   = require('commonmark');
-import _    = require('underscore');
+import * as path from 'path';
+import * as fs   from 'fs-extra';
+import * as cm   from  'commonmark';
+import * as _    from 'underscore';
+import * as fg   from 'fast-glob';
 
 var highlightjs = require('highlight.js');
 
@@ -115,7 +115,7 @@ module doxic {
         if (options.languages) {
             languageFileName = options.languages;
         } else {
-            languageFileName = path.join(__dirname, 'resources', 'languages.json');
+            languageFileName = path.join(__dirname, '../resources', 'languages.json');
         }
         if (fs.existsSync(languageFileName)) {
             var languageFile = fs.readFileSync(languageFileName);
@@ -124,7 +124,7 @@ module doxic {
         }
 
         if (options.layout) {
-            var layoutDir = path.join(__dirname, 'resources', options.layout);
+            var layoutDir = path.join(__dirname, '../resources', options.layout);
 
             options.template = path.join(layoutDir, 'docco.jst');
             options.css = path.join(layoutDir, 'docco.css');
@@ -160,7 +160,9 @@ module doxic {
         var templateFile = fs.readFileSync(options.template);
         options.templateFun = _.template(templateFile.toString());
 
-        options.sources = options._.map((src:string) => {
+        let sources = fg.sync(options._!);
+
+        options.sources = sources.map((src:string) => {
             var lang = findLanguage(src, options);
             if (!lang) {
                 console.log("can't find language for "+src+" -- ignoring file");
@@ -273,11 +275,11 @@ module doxic {
     }
 
     export interface ISection {
-        docsBlocks?: cm.Block[];
-        codeBlock?: cm.Block;
+        docsBlocks?: cm.Node[];
+        codeBlock?: cm.Node;
         codeInfo?: string;
         codeLang?: ILanguageEntry;
-        codeFlags?:any;
+        codeOptions?:any;
         docsText?: string;
         codeText?: string;
         docsHtml?:string;
@@ -289,10 +291,9 @@ module doxic {
     function parseCommonMark(src:ISourceEntry, code:string, options:IOptions):ISection[] {
         var result:ISection[] = [];
 
-        var reader = new cm.DocParser();
+        var parser = new cm.Parser();
 
-        var doc = reader.parse(code);
-        var blocks = doc.children;
+        var doc = parser.parse(code);
 
         var codeBlock = null;
         var docsBlocks = [];
@@ -321,25 +322,27 @@ module doxic {
             docsBlocks = [];
         }
 
-
-        for (var i=0,n=blocks.length; i < n ;++i) {
-            switch (blocks[i].t) {
-                case 'FencedCode':
-                case 'IndentedCode':
-                    codeBlock = blocks[i];
+        for (let node = doc.firstChild; node = node.next; node) {
+            switch (node.type) {
+                case 'code':
+                case 'code_block':
+                    codeBlock = node;
                     saveSection();
                     break;
-                case 'ATXHeader':
-                case 'SetextHeader':
-                case 'HorizontalRule':
-                    docsBlocks.push(blocks[i]);
+                case 'heading':
+                    docsBlocks.push(node);
+                    saveSection();
+                    break;
+                case 'thematic_break':
+                    docsBlocks.push(node);
                     saveSection();
                     break;
                 default:
-                    docsBlocks.push(blocks[i]);
+                    docsBlocks.push(node);
                     break;
             }
         }
+
         saveSection();
 
         return result;
@@ -379,14 +382,13 @@ module doxic {
 
     function format(src:ISourceEntry, sections:ISection[], options:IOptions) {
         var htmlRenderer = new cm.HtmlRenderer();
-        var docParser = new cm.DocParser();
 
         for (var i=0, n=sections.length; i < n; ++i) {
             var thisSection = sections[i];
 
             if (thisSection.codeBlock) {
                 var block = thisSection.codeBlock;
-                var code = block.string_content;
+                var code = block.literal;
 
                 thisSection.codeText = code;
 
@@ -408,11 +410,12 @@ module doxic {
             }
 
             if (thisSection.docsBlocks.length) {
-                thisSection.docsHtml = htmlRenderer.renderBlocks(thisSection.docsBlocks);
+                let docsNode = new cm.Node('custom_block', [[0,0],[0,0]]);
+                thisSection.docsBlocks.forEach(x => docsNode.appendChild(x));
+                thisSection.docsHtml = htmlRenderer.render(docsNode);
                 thisSection.docsText = ''; // TODO: render the commonmark stuff as text?
             } else if (thisSection.docsText) {
-                var parsed = docParser.parse(thisSection.docsText);
-                thisSection.docsHtml = htmlRenderer.render(parsed);
+                console.log('unexpected docsText');
             } else {
                 thisSection.docsHtml = '';
             }
