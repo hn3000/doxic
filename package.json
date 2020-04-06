@@ -35,7 +35,7 @@
     "fast-glob": "^3.0.4",
     "fs-extra": "^8.1.0",
     "highlight.js": "^9.15.9",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.3",
     "underscore": "^1.9.1"
   }
 }
