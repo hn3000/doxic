@@ -1,14 +1,14 @@
 {
   "name": "@hn3000/doxic",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Generator for runnable documentation, inspired by docco and jasmine docs.",
-  "main": "iout/ndex.js",
+  "main": "out/index.js",
   "bin": {
     "doxic": "./bin/doxic"
   },
   "scripts": {
     "tsc": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cd test && doxic alignment.js.md"
   },
   "repository": {
     "type": "git",
@@ -23,19 +23,19 @@
   "author": "Harald Niesche",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^3.5.3"
+    "typescript": "^3.8.3"
   },
   "dependencies": {
     "@types/commonmark": "^0.27.4",
-    "@types/fs-extra": "^8.0.0",
+    "@types/fs-extra": "^8.1.0",
     "@types/minimist": "^1.2.0",
-    "@types/node": "^12.7.1",
-    "@types/underscore": "^1.9.2",
-    "commonmark": "^0.29.0",
-    "fast-glob": "^3.0.4",
-    "fs-extra": "^8.1.0",
-    "highlight.js": "^9.15.9",
-    "minimist": "^1.2.0",
+    "@types/node": "^13.13.5",
+    "@types/underscore": "^1.10.0",
+    "commonmark": "^0.29.1",
+    "fast-glob": "^3.2.2",
+    "fs-extra": "^9.0.0",
+    "highlight.js": "^10.0.3",
+    "minimist": "^1.2.5",
     "underscore": "^1.9.1"
   }
 }
