@@ -16,6 +16,7 @@ Some more short Text (yeah, another paragraph).
 
 ~~~ javascript { runnable: true }
 // some extraordinarily long code here (use your imagination)
+alert('it works!');
 /*
 
 
@@ -45,6 +46,7 @@ Editable code:
 
 ~~~ javascript { runnable: true, editable: true }
 // some extraordinarily long code here (use your imagination)
+alert('it works!');
 /*
 
 
@@ -66,6 +68,10 @@ Editable code:
 `--->`
 
 More text that could have been fake latin, but is not.
+
+Here comes a small image, to use up some more space:
+
+![An image](https://loremicon.com/100/100)
 
 Some more Text.
 
