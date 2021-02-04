@@ -76,7 +76,7 @@ Here comes a small image, to use up some more space:
 Some more Text.
 
     <--- (arrows should be aligned)
-    window.alert('just some code -- no options, therefor not runnable');
+    window.alert('just some code -- no options, therefore not runnable');
     /* this block should be right next to "More text that could have been..." */
 
 ## Usage
